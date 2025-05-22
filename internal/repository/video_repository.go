@@ -98,7 +98,7 @@ func (r *VideoRepository) GetLatestVideos(ctx context.Context, cursor string, li
 
 	var nextCursor string
 	if hasMore && len(videos) > 0 {
-		nextCursor = videos[len(videos)-1].PublishedAt.Format(time.RFC3339)
+		nextCursor = videos[len(videos)-1].PublishedAt.UTC().Format(time.RFC3339)
 	}
 
 	r.logger.Info("Retrieved latest videos",

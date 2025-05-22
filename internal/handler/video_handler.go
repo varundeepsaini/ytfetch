@@ -35,7 +35,7 @@ func (h *VideoHandler) GetLatestVideos(c *gin.Context) {
 	videos, err := h.service.GetLatestVideos(c.Request.Context(), cursor, limit)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
-			"error": "Failed to fetch videos",
+			"error": "Failed to fetch videos: " + err.Error(),
 		})
 		return
 	}

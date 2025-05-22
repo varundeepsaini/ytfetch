@@ -52,6 +52,7 @@ func InitDB(config *Config) (*gorm.DB, error) {
 		Logger:          logger.Default.LogMode(logger.Silent),
 		CreateBatchSize: 100,
 	})
+	
 	if err != nil {
 		return nil, fmt.Errorf("failed to connect to database: %v", err)
 	}

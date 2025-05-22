@@ -41,3 +41,53 @@ Thumbs.db
 
 # Ignore example.go
 example.go
+
+# Frontend
+# Dependencies
+web/node_modules/
+web/.pnp
+web/.pnp.js
+
+# Testing
+web/coverage/
+
+# Production
+web/build/
+web/dist/
+
+# Misc
+web/.DS_Store
+web/.env.local
+web/.env.development.local
+web/.env.test.local
+web/.env.production.local
+web/npm-debug.log*
+web/yarn-debug.log*
+web/yarn-error.log*
+
+# IDE
+web/.idea/
+web/.vscode/
+web/*.sublime-project
+web/*.sublime-workspace
+
+# Optional npm cache directory
+web/.npm
+
+# Optional eslint cache
+web/.eslintcache
+
+# Optional REPL history
+web/.node_repl_history
+
+# Output of 'npm pack'
+web/*.tgz
+
+# Yarn Integrity file
+web/.yarn-integrity
+
+# TypeScript cache
+web/*.tsbuildinfo
+
+# Optional stylelint cache
+web/.stylelintcache
