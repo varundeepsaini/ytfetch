@@ -1,117 +1,93 @@
-# YouTube Video Fetcher API
+# YouTube Video Fetcher
 
-A Go-based API service that fetches and serves YouTube videos based on search queries in a paginated format.
+A simple app that gets YouTube videos and shows them in a nice dashboard.
 
-## Features
+## What it does
 
-- Asynchronous background fetching of YouTube videos
-- Paginated API response sorted by publishing date
-- Support for multiple YouTube API keys
-- Efficient database storage with proper indexing
-- Scalable architecture
+- Gets YouTube videos in the background
+- Shows videos in a grid or list view
+- Lets you search and filter videos
+- Works on all screen sizes
+- Has dark mode
 
-## Prerequisites
+## What you need
 
-- Go 1.21 or higher
-- MySQL 8.0 or higher
-- YouTube Data API v3 key(s)
+- Go 1.21 or newer
+- MySQL 8.0 or newer
+- Node.js 14 or newer
+- A YouTube API key
 
-## Project Structure
+## How to set up
 
-```
-.
-├── cmd/
-│   └── server/
-│       └── main.go
-├── internal/
-│   ├── config/
-│   │   └── config.go
-│   ├── models/
-│   │   └── video.go
-│   ├── repository/
-│   │   └── video_repository.go
-│   ├── service/
-│   │   └── youtube_service.go
-│   └── handlers/
-│       └── video_handler.go
-├── pkg/
-│   └── youtube/
-│       └── client.go
-├── go.mod
-├── go.sum
-└── README.md
-```
-
-## Setup
-
-1. Clone the repository:
+1. Get the code:
 ```bash
 git clone <repository-url>
 cd ytfetch
 ```
 
-2. Install dependencies:
+2. Install Go packages:
 ```bash
 go mod download
 ```
 
-3. Set up environment variables:
+3. Set up your settings in `.env`:
 ```bash
-export DB_HOST=localhost
-export DB_PORT=3306
-export DB_USER=root
-export DB_PASSWORD=your_password
-export DB_NAME=ytfetch
-export YOUTUBE_API_KEYS=key1,key2,key3
-export SEARCH_QUERY=your_search_query
+DB_HOST=localhost
+DB_PORT=3306
+DB_USER=root
+DB_PASSWORD=your_password
+DB_NAME=ytfetch
+YOUTUBE_API_KEYS=your_api_key_comma_seperated
+SEARCH_QUERY=your_search_term
 ```
 
-4. Create MySQL database:
-```sql
+4. Create the database:
+```bash
 CREATE DATABASE ytfetch;
 ```
 
-5. Run the server:
+5. Start the backend:
 ```bash
-go run cmd/server/main.go
+go run cmd/server/main.go // use run.sh to run the server with an empty db
 ```
+
+6. Start the frontend:
+```bash
+cd web
+npm install
+npm start
+```
+
+## How to use
+
+1. Open http://localhost:3000 in your browser
+2. Use the search box to find videos
+3. Filter by date or channel
+4. Switch between grid and list views
+5. Click "Load More" to see more videos
 
 ## API Endpoints
 
 ### GET /api/videos
 Returns paginated list of videos sorted by publishing date.
 
-Query Parameters:
-- `page`: Page number (default: 1)
-- `limit`: Items per page (default: 10)
+Options:
+- `limit`: How many videos to show (default: 10)
+- `cursor`: Where to start from (for loading more)
 
-Response:
+Example response:
 ```json
 {
     "videos": [
         {
-            "id": "string",
-            "title": "string",
-            "description": "string",
-            "published_at": "datetime",
-            "thumbnail_url": "string"
+            "id": "video_id",
+            "title": "Video Title",
+            "description": "Video Description",
+            "published_at": "2024-02-20T10:00:00Z",
+            "thumbnail_url": "https://..."
         }
     ],
-    "total": "integer",
-    "page": "integer",
-    "limit": "integer"
+    "next_cursor": "2024-02-19T10:00:00Z",
+    "has_more": true
 }
 ```
-
-## Configuration
-
-The service can be configured using environment variables:
-
-- `DB_HOST`: MySQL host (default: localhost)
-- `DB_PORT`: MySQL port (default: 3306)
-- `DB_USER`: MySQL user
-- `DB_PASSWORD`: MySQL password
-- `DB_NAME`: MySQL database name
-- `YOUTUBE_API_KEYS`: Comma-separated list of YouTube API keys
-- `SEARCH_QUERY`: Default search query for video fetching
-- `FETCH_INTERVAL`: Interval in seconds for background fetching (default: 10)
